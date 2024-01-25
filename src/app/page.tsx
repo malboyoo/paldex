@@ -2,62 +2,119 @@
 import { palList } from "../data/pals";
 import { PalI, SuitabilityI } from "../inteface/pals";
 import PalCard from "@/components/PalCard";
-import React from "react";
+import React, { use, useEffect } from "react";
+import ElementIcon from "@/components/ElementIcon";
+import { Input, Select } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
 
 export default function Home() {
+  const elementList = ["neutral", "dark", "dragon", "electric", "fire", "grass", "ice", "ground", "water"];
+  const suitabilityList = [
+    "handiwork",
+    "transporting",
+    "farming",
+    "gathering",
+    "mining",
+    "planting",
+    "lumbering",
+    "Medicine Production",
+    "kindling",
+    "Generating Electricity",
+    "watering",
+    "cooling",
+  ];
+  const lootList = palList
+    .map((pal: PalI) => pal.drops)
+    .flat()
+    .filter((drop: string, index: number, self: string[]) => self.indexOf(drop) === index)
+    .map((drop: string) => ({ label: drop, value: drop }));
+  const x10 = JSON.parse(localStorage.getItem("x10") as string) || [];
   const [elementFilter, setElementFilter] = React.useState<string>("");
   const [suitabilityFilter, setSuitabilityFilter] = React.useState<string>("");
   const [search, setSearch] = React.useState<string>("");
+  const [x10State, setX10State] = React.useState<any>(x10);
+  const [x10Filter, setX10Filter] = React.useState<string>("");
+  const [lootFilter, setLootFilter] = React.useState<string>("");
+
+  useEffect(() => {
+    localStorage.setItem("x10", JSON.stringify(x10State));
+  }, [x10State]);
 
   return (
     <>
-      <div className="flex gap-4 py-5 justify-center">
-        <input
-          className="border-2 border-slate-800 rounded-2xl text-blue-600 px-2"
-          placeholder="search by name, id, or key"
-          onChange={(e) => setSearch(e.target.value.toLowerCase())}
-        />
-        <div className="flex gap-2">
-          <span>filter by element</span>
-          <select className="border-2 border-slate-500 rounded-2xl text-blue-600" onChange={(e) => setElementFilter(e.target.value)}>
-            <option value="">all</option>
-            <option value="neutral">neutral</option>
-            <option value="dark">dark</option>
-            <option value="dragon">dragon</option>
-            <option value="electric">electric</option>
-            <option value="fire">fire</option>
-            <option value="grass">grass</option>
-            <option value="ice">ice</option>
-            <option value="ground">ground</option>
-            <option value="water">water</option>
-          </select>
+      <div className="flex gap-4 px-10 py-5">
+        <div>
+          <Input
+            className="text-blue-600 px-2"
+            placeholder="search by name or number"
+            onChange={(e) => setSearch(e.target.value.toLowerCase())}
+            style={{ width: 250 }}
+          />
         </div>
-        <div className="flex gap-2">
-          <span>filter by suitability</span>
-          <select className="border-2 border-slate-500 rounded-2xl text-blue-600" onChange={(e) => setSuitabilityFilter(e.target.value)}>
-            <option value="">all</option>
-            <option value="handiwork">handiwork</option>
-            <option value="transporting">transporting</option>
-            <option value="farming">farming</option>
-            <option value="gathering">gathering</option>
-            <option value="mining">mining</option>
-            <option value="planting">planting</option>
-            <option value="lumbering">lumbering</option>
-            <option value="Medicine Production">Medicine Production</option>
-            <option value="kindling">kindling</option>
-            <option value="Generating Electricity">Generating Electricity</option>
-            <option value="watering">watering</option>
-            <option value="cooling">cooling</option>
-          </select>
+        <div className="flex gap-1 items-center">
+          <span>Element</span>
+          <Select style={{ width: 150 }} onChange={(e) => (e ? setElementFilter(e) : setElementFilter(""))} allowClear>
+            {elementList.map((element: string) => {
+              return (
+                <option value="neutral">
+                  <span className="flex gap-1">
+                    <ElementIcon types={[element]} key={`element-key-${element}`} /> {element.charAt(0).toUpperCase() + element.slice(1)}
+                  </span>
+                </option>
+              );
+            })}
+          </Select>
+        </div>
+        <div className="flex gap-1 items-center">
+          <span>Tasks</span>
+          <Select style={{ width: 200 }} onChange={(e) => setSuitabilityFilter(e)}>
+            {suitabilityList.map((suitability: string) => {
+              return (
+                <option value={suitability}>
+                  <span className="flex gap-1">
+                    <img src={`/images/suitability/${suitability.replace(/ /g, "_")}_Icon.webp`} alt={`${suitability} icon`} width={25} height={25} />
+                    {suitability.charAt(0).toUpperCase() + suitability.slice(1)}
+                  </span>
+                </option>
+              );
+            })}
+          </Select>
+        </div>
+        <div className="flex gap-1 items-center">
+          <span>x10</span>
+          <Select onChange={(e) => setX10Filter(e)} style={{ width: 100 }} allowClear>
+            <option value="notx10">not x10</option>
+            <option value="x10">x10</option>
+          </Select>
+        </div>
+        <div className="flex gap-1 items-center">
+          <span>Loot</span>
+          <Select
+            allowClear
+            showSearch
+            className="text-blue-600 px-2"
+            placeholder="search by loot"
+            onChange={(e) => setLootFilter(e)}
+            style={{ width: 200 }}
+            options={lootList}
+          />
         </div>
       </div>
-      <div className="flex flex-wrap min-h-screen items-center justify-start p-24 gap-4">
+      <div className="flex flex-wrap p-10 gap-4">
         {palList
           .filter((pal: PalI) => pal.types.includes(elementFilter) || elementFilter === "")
           .filter((pal: PalI) => pal.suitability.find((s: SuitabilityI) => s.type === suitabilityFilter) || suitabilityFilter === "")
           .filter((pal: PalI) => pal.name.toLowerCase().includes(search) || pal.id === parseInt(search) || pal.key == search || search === "")
+          .filter(
+            (pal: PalI) =>
+              x10Filter === undefined ||
+              x10Filter === "" ||
+              (x10Filter === "x10" && x10State.includes(pal.id)) ||
+              (x10Filter === "notx10" && !x10State.includes(pal.id))
+          )
+          .filter((pal: PalI) => pal.drops.includes(lootFilter) || lootFilter === "" || lootFilter === undefined)
           .map((pal: PalI) => (
-            <PalCard pal={pal} key={pal.key} />
+            <PalCard pal={pal} key={pal.key} setX10State={setX10State} x10State={x10State} />
           ))}
       </div>
     </>
