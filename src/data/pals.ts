@@ -1,3 +1,20 @@
+export const elementList = ["neutral", "dark", "dragon", "electric", "fire", "grass", "ice", "ground", "water"];
+
+export const suitabilityList = [
+  "handiwork",
+  "transporting",
+  "farming",
+  "gathering",
+  "mining",
+  "planting",
+  "lumbering",
+  "Medicine Production",
+  "kindling",
+  "Generating Electricity",
+  "watering",
+  "cooling",
+];
+
 export const palList = [
   {
     id: 1,
@@ -997,7 +1014,7 @@ export const palList = [
     imageWiki: "https://static.wikia.nocookie.net/palworld/images/4/40/Eikthyrdeer_menu.png/",
     suitability: [
       {
-        type: "Lumbering ",
+        type: "Lumbering",
         level: 2,
       },
     ],

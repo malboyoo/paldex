@@ -1,28 +1,14 @@
 "use client";
-import { palList } from "../data/pals";
+import { palList, elementList, suitabilityList } from "../data/pals";
 import { PalI, SuitabilityI } from "../inteface/pals";
+import { Input, Select } from "antd";
+import { CloseOutlined } from "@ant-design/icons";
 import PalCard from "@/components/PalCard";
 import React, { use, useEffect } from "react";
 import ElementIcon from "@/components/ElementIcon";
-import { Input, Select } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
+import Image from "next/image";
 
 export default function Home() {
-  const elementList = ["neutral", "dark", "dragon", "electric", "fire", "grass", "ice", "ground", "water"];
-  const suitabilityList = [
-    "handiwork",
-    "transporting",
-    "farming",
-    "gathering",
-    "mining",
-    "planting",
-    "lumbering",
-    "Medicine Production",
-    "kindling",
-    "Generating Electricity",
-    "watering",
-    "cooling",
-  ];
   const lootList = palList
     .map((pal: PalI) => pal.drops)
     .flat()
@@ -71,7 +57,7 @@ export default function Home() {
               return (
                 <option value={suitability}>
                   <span className="flex gap-1">
-                    <img src={`/images/suitability/${suitability.replace(/ /g, "_")}_Icon.webp`} alt={`${suitability} icon`} width={25} height={25} />
+                    <Image src={`/images/suitability/${suitability}.webp`} alt={`${suitability} icon`} width={25} height={25} />
                     {suitability.charAt(0).toUpperCase() + suitability.slice(1)}
                   </span>
                 </option>
@@ -101,17 +87,17 @@ export default function Home() {
       </div>
       <div className="flex flex-wrap p-10 gap-4 justify-center">
         {palList
-          .filter((pal: PalI) => pal.types.includes(elementFilter) || elementFilter === "")
-          .filter((pal: PalI) => pal.suitability.find((s: SuitabilityI) => s.type === suitabilityFilter) || suitabilityFilter === "")
-          .filter((pal: PalI) => pal.name.toLowerCase().includes(search) || pal.id === parseInt(search) || pal.key == search || search === "")
+          .filter((pal: PalI) => pal?.types?.includes(elementFilter) || elementFilter === "")
+          .filter((pal: PalI) => pal?.suitability?.find((s: SuitabilityI) => s.type === suitabilityFilter) || suitabilityFilter === "")
+          .filter((pal: PalI) => pal?.name?.toLowerCase().includes(search) || pal?.id === parseInt(search) || pal?.key == search || search === "")
           .filter(
             (pal: PalI) =>
               x10Filter === undefined ||
               x10Filter === "" ||
-              (x10Filter === "x10" && x10State.includes(pal.id)) ||
-              (x10Filter === "notx10" && !x10State.includes(pal.id))
+              (x10Filter === "x10" && x10State?.includes(pal.id)) ||
+              (x10Filter === "notx10" && !x10State?.includes(pal.id))
           )
-          .filter((pal: PalI) => pal.drops.includes(lootFilter) || lootFilter === "" || lootFilter === undefined)
+          .filter((pal: PalI) => pal?.drops?.includes(lootFilter) || lootFilter === "" || lootFilter === undefined)
           .map((pal: PalI) => (
             <PalCard pal={pal} key={pal.key} setX10State={setX10State} x10State={x10State} />
           ))}
