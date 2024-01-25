@@ -22,7 +22,7 @@ export default function Home() {
   const [lootFilter, setLootFilter] = React.useState<string>("");
 
   useEffect(() => {
-    localStorage.setItem("x10", JSON.stringify(x10State));
+    localStorage.setItem("x10", x10State.length ? JSON.stringify(x10State) : JSON.stringify([]));
   }, [x10State]);
 
   return (
@@ -52,7 +52,7 @@ export default function Home() {
         </div>
         <div className="flex gap-1 items-center">
           <span>Tasks</span>
-          <Select style={{ width: 200 }} onChange={(e) => setSuitabilityFilter(e)}>
+          <Select style={{ width: 200 }} onChange={(e) => setSuitabilityFilter(e)} allowClear>
             {suitabilityList.map((suitability: string) => {
               return (
                 <option value={suitability}>

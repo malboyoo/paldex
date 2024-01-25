@@ -34,7 +34,7 @@ export default function PalCard({
             </span>
           ))}
         </div>
-        {x10State?.length ? <X10 id={pal.id} setX10State={setX10State} x10State={x10State} /> : null}
+        {Array.isArray(x10State) ? <X10 id={pal.id} setX10State={setX10State} x10State={x10State} /> : null}
       </div>
     </div>
   );
