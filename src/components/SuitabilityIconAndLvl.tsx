@@ -2,7 +2,7 @@ import { SuitabilityI } from "@/inteface/pals";
 import React from "react";
 import Image from "next/image";
 
-export default function SuitabilityIconAndLvl({ suitability }: { suitability: SuitabilityI[] }) {
+export default function SuitabilityIconAndLvl({ suitability, id }: { suitability: SuitabilityI[]; id: number }) {
   const elementImages: any = {
     handiwork: "/images/suitability/Handiwork_Icon.webp",
     transporting: "/images/suitability/Transporting_Icon.webp",
@@ -20,7 +20,7 @@ export default function SuitabilityIconAndLvl({ suitability }: { suitability: Su
   return (
     <div className="flex">
       {suitability.map((s: SuitabilityI) => (
-        <div className="relative w-[25px] h-[25px]">
+        <div className="relative w-[25px] h-[25px]" key={`${s.type}-${id}`}>
           <Image src={elementImages[s.type]} alt={`${s.type} icon`} width={25} height={25} />
           <span className="absolute -bottom-1 right-0 text-xs">{s.level}</span>
         </div>

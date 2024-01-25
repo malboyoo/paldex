@@ -28,11 +28,10 @@ export default function Home() {
     .flat()
     .filter((drop: string, index: number, self: string[]) => self.indexOf(drop) === index)
     .map((drop: string) => ({ label: drop, value: drop }));
-  const x10 = JSON.parse(localStorage.getItem("x10") as string) || [];
   const [elementFilter, setElementFilter] = React.useState<string>("");
   const [suitabilityFilter, setSuitabilityFilter] = React.useState<string>("");
   const [search, setSearch] = React.useState<string>("");
-  const [x10State, setX10State] = React.useState<any>(x10);
+  const [x10State, setX10State] = React.useState<any>(typeof window !== "undefined" ? JSON.parse(localStorage.getItem("x10") as string) : []);
   const [x10Filter, setX10Filter] = React.useState<string>("");
   const [lootFilter, setLootFilter] = React.useState<string>("");
 
@@ -42,7 +41,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex gap-4 px-10 py-5">
+      <div className="flex gap-4 px-10 py-5 justify-center">
         <div>
           <Input
             className="text-blue-600 px-2"
@@ -100,7 +99,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className="flex flex-wrap p-10 gap-4">
+      <div className="flex flex-wrap p-10 gap-4 justify-center">
         {palList
           .filter((pal: PalI) => pal.types.includes(elementFilter) || elementFilter === "")
           .filter((pal: PalI) => pal.suitability.find((s: SuitabilityI) => s.type === suitabilityFilter) || suitabilityFilter === "")

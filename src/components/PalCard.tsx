@@ -23,18 +23,18 @@ export default function PalCard({
         <Link href={pal.wiki}>
           <span className="text-2xl font-bold text-blue-400">{pal.name}</span>
         </Link>
-        <ElementIcon types={pal.types} />
-        <SuitabilityIconAndLvl suitability={pal.suitability} />
+        <ElementIcon types={pal.types} id={pal.id} />
+        <SuitabilityIconAndLvl suitability={pal.suitability} id={pal.id} />
         <div>
           {pal.drops.map((drop: string) => (
-            <span className="text-[10px]">
+            <span className="text-[10px]" key={`${drop}-${pal.id}`}>
               <span className="text-yellow-300">[</span>
               {drop}
               <span className="text-yellow-300">]</span>
             </span>
           ))}
         </div>
-        <X10 id={pal.id} setX10State={setX10State} x10State={x10State} />
+        {x10State?.length ? <X10 id={pal.id} setX10State={setX10State} x10State={x10State} /> : null}
       </div>
     </div>
   );

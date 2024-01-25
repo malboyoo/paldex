@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-export default function ElementIcon({ types }: { types: string[] }) {
+export default function ElementIcon({ types, id }: { types: string[]; id?: number }) {
   const elementImages: any = {
     neutral: "/images/type/neutral_icon.webp",
     dark: "/images/type/dark_icon.webp",
@@ -16,7 +16,7 @@ export default function ElementIcon({ types }: { types: string[] }) {
   return (
     <div className="flex">
       {types.map((type: string) => (
-        <Image src={elementImages[type]} alt={`${type} icon`} width={25} height={25} />
+        <Image src={elementImages[type]} alt={`${type} icon`} width={25} height={25} key={`${type}-${id}`} />
       ))}
     </div>
   );
