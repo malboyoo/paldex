@@ -22,7 +22,7 @@ export default function Home() {
   const [lootFilter, setLootFilter] = React.useState<string>("");
 
   useEffect(() => {
-    localStorage.setItem("x10", x10State.length ? JSON.stringify(x10State) : JSON.stringify([]));
+    localStorage.setItem("x10", x10State?.length ? JSON.stringify(x10State) : JSON.stringify([]));
   }, [x10State]);
 
   return (
@@ -39,9 +39,9 @@ export default function Home() {
         <div className="flex gap-1 items-center">
           <span>Element</span>
           <Select style={{ width: 150 }} onChange={(e) => (e ? setElementFilter(e) : setElementFilter(""))} allowClear>
-            {elementList.map((element: string) => {
+            {elementList.map((element: string, i: number) => {
               return (
-                <option value="neutral">
+                <option value="neutral" key={`${element}-${i}`}>
                   <span className="flex gap-1">
                     <ElementIcon types={[element]} key={`element-key-${element}`} /> {element.charAt(0).toUpperCase() + element.slice(1)}
                   </span>
@@ -53,9 +53,9 @@ export default function Home() {
         <div className="flex gap-1 items-center">
           <span>Tasks</span>
           <Select style={{ width: 200 }} onChange={(e) => setSuitabilityFilter(e)} allowClear>
-            {suitabilityList.map((suitability: string) => {
+            {suitabilityList.map((suitability: string, i: number) => {
               return (
-                <option value={suitability}>
+                <option value={suitability} key={`${suitability}-${i}`}>
                   <span className="flex gap-1">
                     <Image src={`/images/suitability/${suitability}.webp`} alt={`${suitability} icon`} width={25} height={25} />
                     {suitability.charAt(0).toUpperCase() + suitability.slice(1)}
