@@ -21,6 +21,25 @@ export default function Home() {
   const [x10Filter, setX10Filter] = React.useState<string>("");
   const [lootFilter, setLootFilter] = React.useState<string>("");
 
+  const elementOptions = elementList.map((element: string) => ({
+    label: (
+      <span className="flex gap-1">
+        <ElementIcon types={[element]} key={`element-key-${element}`} /> {element.charAt(0).toUpperCase() + element.slice(1)}
+      </span>
+    ),
+    value: element,
+  }));
+
+  const suitabilityOptions = suitabilityList.map((suitability: string) => ({
+    label: (
+      <span className="flex gap-1">
+        <Image src={`/images/suitability/${suitability}.webp`} alt={`${suitability} icon`} width={25} height={25} />
+        {suitability.charAt(0).toUpperCase() + suitability.slice(1)}
+      </span>
+    ),
+    value: suitability,
+  }));
+
   useEffect(() => {
     localStorage.setItem("x10", x10State?.length ? JSON.stringify(x10State) : JSON.stringify([]));
   }, [x10State]);
@@ -38,39 +57,23 @@ export default function Home() {
         </div>
         <div className="flex gap-1 items-center">
           <span>Element</span>
-          <Select style={{ width: 150 }} onChange={(e) => (e ? setElementFilter(e) : setElementFilter(""))} allowClear>
-            {elementList.map((element: string, i: number) => {
-              return (
-                <option value="neutral" key={`${element}-${i}`}>
-                  <span className="flex gap-1">
-                    <ElementIcon types={[element]} key={`element-key-${element}`} /> {element.charAt(0).toUpperCase() + element.slice(1)}
-                  </span>
-                </option>
-              );
-            })}
-          </Select>
+          <Select style={{ width: 150 }} onChange={(e) => (e ? setElementFilter(e) : setElementFilter(""))} allowClear options={elementOptions} />
         </div>
         <div className="flex gap-1 items-center">
           <span>Tasks</span>
-          <Select style={{ width: 200 }} onChange={(e) => setSuitabilityFilter(e)} allowClear>
-            {suitabilityList.map((suitability: string, i: number) => {
-              return (
-                <option value={suitability} key={`${suitability}-${i}`}>
-                  <span className="flex gap-1">
-                    <Image src={`/images/suitability/${suitability}.webp`} alt={`${suitability} icon`} width={25} height={25} />
-                    {suitability.charAt(0).toUpperCase() + suitability.slice(1)}
-                  </span>
-                </option>
-              );
-            })}
-          </Select>
+          <Select style={{ width: 200 }} onChange={(e) => setSuitabilityFilter(e)} allowClear options={suitabilityOptions} />
         </div>
         <div className="flex gap-1 items-center">
           <span>x10</span>
-          <Select onChange={(e) => setX10Filter(e)} style={{ width: 100 }} allowClear>
-            <option value="notx10">not x10</option>
-            <option value="x10">x10</option>
-          </Select>
+          <Select
+            onChange={(e) => setX10Filter(e)}
+            style={{ width: 100 }}
+            allowClear
+            options={[
+              { label: "x10", value: "x10" },
+              { label: "not x10", value: "notx10" },
+            ]}
+          />
         </div>
         <div className="flex gap-1 items-center">
           <span>Loot</span>
@@ -87,8 +90,11 @@ export default function Home() {
       </div>
       <div className="flex flex-wrap p-10 gap-4 justify-center">
         {palList
-          .filter((pal: PalI) => pal?.types?.includes(elementFilter) || elementFilter === "")
-          .filter((pal: PalI) => pal?.suitability?.find((s: SuitabilityI) => s.type === suitabilityFilter) || suitabilityFilter === "")
+          .filter((pal: PalI) => pal?.types?.includes(elementFilter) || elementFilter === "" || suitabilityFilter === undefined)
+          .filter(
+            (pal: PalI) =>
+              pal?.suitability?.find((s: SuitabilityI) => s.type === suitabilityFilter) || suitabilityFilter === "" || suitabilityFilter === undefined
+          )
           .filter((pal: PalI) => pal?.name?.toLowerCase().includes(search) || pal?.id === parseInt(search) || pal?.key == search || search === "")
           .filter(
             (pal: PalI) =>
