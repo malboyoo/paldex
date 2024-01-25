@@ -55,7 +55,7 @@ export default function Home() {
         {palList
           .filter((pal: PalI) => pal.types.includes(elementFilter) || elementFilter === "")
           .filter((pal: PalI) => pal.suitability.find((s: SuitabilityI) => s.type === suitabilityFilter) || suitabilityFilter === "")
-          .filter((pal: PalI) => pal.name.toLowerCase().includes(search) || pal.id === parseInt(search) || pal.key === parseInt(search) || search === "")
+          .filter((pal: PalI) => pal.name.toLowerCase().includes(search) || pal.id === parseInt(search) || pal.key == search || search === "")
           .map((pal: PalI) => (
             <PalCard pal={pal} key={pal.key} />
           ))}
