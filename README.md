@@ -1,3 +1,5 @@
+URL: https://paldex-malboyoos-projects.vercel.app/
+
 ## VERSION 0.2 PALDEX
 
 add loots filter
