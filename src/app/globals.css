@@ -26,3 +26,21 @@ body {
     text-wrap: balance;
   }
 }
+
+.ant-select-selector,
+.ant-input {
+  background-color: #0f172a !important;
+  color: white !important;
+  &::placeholder {
+    color: #edecec !important;
+  }
+}
+
+.ant-select-selection-search-input {
+  color: white !important;
+  background-color: #0f172a !important;
+}
+
+.ant-select-selection-placeholder {
+  color: #edecec !important;
+}

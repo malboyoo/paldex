@@ -86,7 +86,7 @@ export default function Home() {
         </div>
         <div className="flex gap-1 items-center">
           <span>Loot</span>
-          <Select allowClear showSearch placeholder="search by loot" onChange={(e) => setLootFilter(e)} style={{ width: 200 }} options={lootList} />
+          <Select allowClear showSearch placeholder="Search by loot" onChange={(e) => setLootFilter(e)} style={{ width: 200 }} options={lootList} />
         </div>
       </div>
       <div className="flex flex-wrap p-2 md:p-10 gap-4 justify-center items-center">
