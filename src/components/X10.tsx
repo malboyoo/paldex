@@ -3,7 +3,7 @@ import React from "react";
 export default function X10({ id, setX10State, x10State }: { id: number; setX10State: React.Dispatch<React.SetStateAction<number[]>>; x10State?: number[] }) {
   function addToX10(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
-      setX10State((prevState) => [...prevState, id]);
+      setX10State((prevState) => (prevState ? [...prevState, id] : [id]));
     } else {
       setX10State((prevState) => prevState.filter((x) => x !== id));
     }
