@@ -1,7 +1,7 @@
 "use client";
 import { palList, elementList, suitabilityList } from "../data/pals";
 import { PalI, SuitabilityI } from "../inteface/pals";
-import { Input, Select } from "antd";
+import { Input, Select, Tooltip } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import PalCard from "@/components/PalCard";
 import React, { use, useEffect } from "react";
@@ -46,7 +46,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex gap-4 px-10 py-5 justify-center">
+      <div className="flex flex-wrap gap-10 px-10 py-5 justify-center">
         <div>
           <Input
             className="text-blue-600 px-2"
@@ -57,21 +57,30 @@ export default function Home() {
         </div>
         <div className="flex gap-1 items-center">
           <span>Element</span>
-          <Select style={{ width: 150 }} onChange={(e) => (e ? setElementFilter(e) : setElementFilter(""))} allowClear options={elementOptions} />
+          <Select
+            style={{ width: 150 }}
+            onChange={(e) => (e ? setElementFilter(e) : setElementFilter(""))}
+            allowClear
+            options={elementOptions}
+            placeholder="all"
+          />
         </div>
         <div className="flex gap-1 items-center">
           <span>Tasks</span>
-          <Select style={{ width: 200 }} onChange={(e) => setSuitabilityFilter(e)} allowClear options={suitabilityOptions} />
+          <Select style={{ width: 200 }} onChange={(e) => setSuitabilityFilter(e)} allowClear options={suitabilityOptions} placeholder="all" />
         </div>
         <div className="flex gap-1 items-center">
-          <span>x10</span>
+          <Tooltip title="already Catched ?">
+            <Image src={`/images/other/palsphere.webp`} alt={`Palsphere icon`} width={25} height={25} />
+          </Tooltip>
           <Select
             onChange={(e) => setX10Filter(e)}
-            style={{ width: 100 }}
+            style={{ width: 125 }}
             allowClear
+            placeholder="Catched ?"
             options={[
-              { label: "x10", value: "x10" },
-              { label: "not x10", value: "notx10" },
+              { label: "yes", value: "x10" },
+              { label: "no", value: "notx10" },
             ]}
           />
         </div>
