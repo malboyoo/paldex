@@ -1,9 +1,15 @@
 URL: https://paldex-malboyoos-projects.vercel.app/
 
+## TODO
+
+Implement SSR
+Improving SEO
+
 ## VERSION 0.3 PALDEX
 
 add colored background for each types
-bugs fix
+change x10 for palsphere icon
+various bugs fix
 
 ## VERSION 0.2 PALDEX
 
