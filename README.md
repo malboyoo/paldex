@@ -5,6 +5,10 @@ URL: https://paldex-pi.vercel.app/
 Implement SSR
 Improving SEO
 
+## VERSION 0.4 PALDEX
+
+improving mobile version (most used)
+
 ## VERSION 0.3 PALDEX
 
 add colored background for each types

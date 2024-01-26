@@ -1,8 +1,8 @@
 "use client";
+
 import { palList, elementList, suitabilityList } from "../data/pals";
 import { PalI, SuitabilityI } from "../inteface/pals";
 import { Input, Select, Tooltip } from "antd";
-import { CloseOutlined } from "@ant-design/icons";
 import PalCard from "@/components/PalCard";
 import React, { use, useEffect } from "react";
 import ElementIcon from "@/components/ElementIcon";
@@ -45,8 +45,8 @@ export default function Home() {
   }, [x10State]);
 
   return (
-    <>
-      <div className="flex flex-wrap gap-10 px-10 py-5 justify-center">
+    <div className="flex flex-col items-center justify-center">
+      <div className="flex flex-wrap gap-2 px-2  py-5 justify-end md:px-10 md:gap-10 md:justify-center">
         <div>
           <Input
             className="text-blue-600 px-2"
@@ -86,18 +86,10 @@ export default function Home() {
         </div>
         <div className="flex gap-1 items-center">
           <span>Loot</span>
-          <Select
-            allowClear
-            showSearch
-            className="text-blue-600 px-2"
-            placeholder="search by loot"
-            onChange={(e) => setLootFilter(e)}
-            style={{ width: 200 }}
-            options={lootList}
-          />
+          <Select allowClear showSearch placeholder="search by loot" onChange={(e) => setLootFilter(e)} style={{ width: 200 }} options={lootList} />
         </div>
       </div>
-      <div className="flex flex-wrap p-10 gap-4 justify-center">
+      <div className="flex flex-wrap p-2 md:p-10 gap-4 justify-center items-center">
         {palList
           .filter((pal: PalI) => pal?.types?.includes(elementFilter) || elementFilter === "" || suitabilityFilter === undefined)
           .filter(
@@ -117,6 +109,6 @@ export default function Home() {
             <PalCard pal={pal} key={pal.key} setX10State={setX10State} x10State={x10State} />
           ))}
       </div>
-    </>
+    </div>
   );
 }
