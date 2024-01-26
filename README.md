@@ -1,4 +1,4 @@
-URL: https://paldex-malboyoos-projects.vercel.app/
+URL: https://paldex-pi.vercel.app/
 
 ## TODO
 
